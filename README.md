@@ -1,11 +1,9 @@
 # GetYourTeamOrganized
 
-# README.md Generator!
-
-## Welcome to the README file for my README.md generator. Below is all the information needed to fully understand this application.
+## Welcome to the README file for my *GetYourTeamOrganized* application. Below is all the information needed to fully understand this application.
 ---
 
-##### *WARNING! When executing this application the README.md file will populate in place of this README. a copy of this is saved in a text file in the lib folder. If you wish to preview an example of the type of README.md file this application produces without executing the program visit the sampleREADME folder.*
+##### *WARNING!*
 
 
 
