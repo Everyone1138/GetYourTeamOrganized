@@ -55,7 +55,7 @@
     "esprima": "^4.0.1",
     "execa": "^5.1.1",
     "exit": "^0.1.2",
-    "expect": "^29.1.2",
+    "expect": "^29.2.1",
     "fast-json-stable-stringify": "^2.1.0",
     "fb-watchman": "^2.0.2",
     "fill-range": "^7.0.1",
@@ -90,6 +90,7 @@
     "istanbul-lib-report": "^3.0.0",
     "istanbul-lib-source-maps": "^4.0.1",
     "istanbul-reports": "^3.1.5",
+    "Jest": "npm:jest@^29.2.0",
     "jest-changed-files": "^29.0.0",
     "jest-circus": "^29.1.2",
     "jest-cli": "^29.1.2",
@@ -201,10 +202,9 @@
   },
   "scripts": {
     "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
-    
     "type": "git",
     "url": "git+https://github.com/Everyone1138/GetYourTeamOrganized.git"
   },

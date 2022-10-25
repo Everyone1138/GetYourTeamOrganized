@@ -1,30 +1,41 @@
-const inquirer = require('inquirer');
-const fs = require('fs');
-// const genHTMLfile = require('./genHTMLfile');
-// // const Manager = require('./lib/manager');
-// // const Engineer = require('./lib/engineer');
-// // const Intern = require('./lib/intern');
+const inquirer = require('inquirer'); // inquirer is defined/required so I can have my app ask questions
+const fs = require('fs');            // fs is defined/required to write the html team organizing file
+const genHTML = require('./lib/genHTMLfile');  // This is the file that uses the information gathered by the inquirer prompt & functions to help populate the new html file that will be generated when you run the app
+const Manager = require('./lib/Manager');  // Here we have the objects/constructors that help organize the information input from the user 
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/intern');
 
-let teamArray = []
+
+let teamArray = []; // array to help push new objects made with the constructors 
+
+function organizeTeam () {    // This function encapsulates the rest of the functions(inquirer prompt, file generator, .then, etc ) so all components of the app work together at the same time.   
 
 function init() {
-    console.log("Welcome to team generator!We'll start by adding the project manager!")
-    addManager()
+    console.log("Welcome to team generator!We'll start by adding the project manager!") // this funtion starts off the app by asking the user their managers info
+    addManager();
 }
-function nextStep(){
-    inquirer.prompt(
-        {
+function nextStep(){   // This function asks the user if they want to make a Engineer employee card, Intern  employee card, or to finish and build the team. 
+    inquirer.prompt([{
             type: "list",
             name: "next",
             message: "What would you like to do next?",
-            choices: ["add intern", "add engineer", "build team"]
-        },
+            choices: ["Intern", "Engineer", "build team"]
+    }]).then(function(empInfoadd) {   // this .then function tells the app "where to go" based on the users choice of creating another employee card or being done and building the team
+        switch (empInfoadd.next) {   
+            case "Engineer":
+                addEngineer();
+                break;
+            case "Intern":
+                addIntern();
+                break;
 
-    )
-    .then // add switch function ^^^^^ with above options . if the answer build team then the team wwil be built , if the anser add intern , if the answer build eng 
-    
+            default:
+                buildHTMLteam();
+        }
+    })
 }
-function addManager() {
+    
+function addManager() { // function that asks the user questions.User input is then used to create a new object
     inquirer.prompt([
 
         {
@@ -36,7 +47,7 @@ function addManager() {
         {
             type: "input",
             name: "managerId",
-            message: "What is the manager's employee ID number?"
+            message: "What's the managers employee identification number?"
         },
 
         {
@@ -47,94 +58,90 @@ function addManager() {
 
         {
             type: "input",
-            name: "managerOfficeNumber",
-            message: "What is the manager's office number?"
+            name: "officeNumb",
+            message: "What is the manager's office phone number?"
         }
+    ]).then(answers => { // this helps create new objects with the information input from the user. the contructors are used for this. 
+        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumb);
+        teamArray.push(manager);
+        nextStep(); // this is at the end of each of these funtions that ask specific questions about each new employee the user wishes
+                    // to add to there team. This makes it so tha after each new emplyee is made the app asks if the user wants to make a new employee card or be done and build the team ie: make the team html file. 
+    });
+}
+function addEngineer() {  // function that takes user input to help populate Engineer employee card
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "engineName",
+            message: "What's the engineers name?"
+        },
 
+        {
+            type: "input",
+            name: "engineId",
+            message: "What's the engineers employee identification number?"
+        },
+
+        { 
+            type: "input",
+            name: "engineEmail",
+            message: "What's the engineers email address?"
+        },
+
+        {
+            type: "input",
+            name: "engineGitHub",
+            message: "What's the engineers GitHub username?"
+        }
     ]).then(answers => {
-        //const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
-        //teamArray.push(manager);
+        let engineer = new Engineer(answers.engineName, answers.engineId, answers.engineEmail, answers.engineGitHub);
+        teamArray.push(engineer); 
         nextStep();
     });
 
 }
 
-
-function addEngineer() {
+    function addIntern() {  // function that takes user input to help populate Intern employee card
     inquirer.prompt([
 
         {
             type: "input",
-            name: "engineerName",
-            message: "What is the engineer's name?"
-        },
-        {
-            type: "input",
-            name: "engineerId",
-            message: "What is the engineer's employee ID number?"
+            name: "intName",
+            message: "What's the interns name?"
         },
 
         {
             type: "input",
-            name: "engineerEmail",
-            message: "What is the engineer's email address?"
+            name: "intId",
+            message: "What's the interns employee identification number?"
         },
+
         {
             type: "input",
-            name: "engineerGithub",
-            message: "What is the engineer's GitHub username?"
+            name: "intEmail",
+            message: "What's the interns email address?"
+        },
+
+        {
+            type: "input",
+            name: "intSchool",
+            message: "What school does the intern go to?"
         }
 
     ]).then(answers => {
-        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
-        teamArray.push(engineer);
-        
-    });
-
-}
-
-function addIntern() {
-    inquirer.prompt([
-
-        {
-            type: "input",
-            name: "internName",
-            message: "What is the intern's name?"
-        },
-
-        {
-            type: "input",
-            name: "internId",
-            message: "What is the intern's employee ID number?"
-        },
-
-        {
-            type: "input",
-            name: "internEmail",
-            message: "What is the intern's email address?"
-        },
-        {
-            type: "input",
-            name: "internSchool",
-            message: "What school does the intern attend?"
-        }
-
-    ]).then(answers => {
-        const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+        let intern = new Intern(answers.intName, answers.intId, answers.intEmail, answers.intSchool);
         teamArray.push(intern);
-        
+        nextStep();
     });
-
 }
 
+    function buildHTMLteam() {  // this function gathers all the users input and writes/generates an html file with employee cards populated with the user input
+        fs.writeFileSync('./dist/index.html', genHTML(teamArray)) 
+        console.log('You have successfully organized your team!')
+    }
 
-function htmlBuilder() {
-    console.log("Team created!")
-
-    fs.writeFileSync(outputPath, generateTeam(teamArray), "UTF-8")
-
-}
-//genTeam();
-
+   
 init();
-// make sure to add function name at the end 
+
+}
+organizeTeam();

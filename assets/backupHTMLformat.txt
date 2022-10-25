@@ -133,3 +133,8 @@
 </body>
 
 </html>
+
+
+
+*************
+This is a text copy of the HTML file template in the event that I accidentally overwrote the original template while testing. 
