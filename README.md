@@ -61,7 +61,7 @@ Once the repo is downloaded onto the users computer, the user can open the appli
 
  If the user selects engineer they will be presented with the series of questions seen below. The user will be asked to for the engineers name, employee number, e-mail, and GitHub. After the user is done answering these questions they'll once again be presented with a list with the three options stated in the directions above. 
 
- ![Questions to pupulate engineer emplyee card](./images/Screenshot%20(50).png)
+ ![Questions to pupulate engineer emplyee card](./images/Screenshot%20(53).png)
 
 
 ---
